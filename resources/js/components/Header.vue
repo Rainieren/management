@@ -13,9 +13,9 @@
                                 <template v-for="(item, itemIdx) in navigation" :key="item">
                                     <template v-if="(itemIdx === 0)">
                                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                        <a href="#" class="bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
+                                        <a href="/" class="bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
                                     </template>
-                                    <a v-else href="#" class="text-gray-700 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
+                                    <a v-else href="/" class="text-gray-700 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
                                 </template>
                             </div>
                         </div>
@@ -41,9 +41,9 @@
                                 <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                                     <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <MenuItem v-for="item in profile" :key="item" v-slot="{ active }">
-                                            <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item }}</a>
+                                            <a href="/" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item }}</a>
                                         </MenuItem>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700">Sign out</a>
+                                        <a href="/" class="block px-4 py-2 text-sm text-gray-700">Sign out</a>
                                     </MenuItems>
                                 </transition>
                             </Menu>
@@ -65,9 +65,9 @@
                     <template v-for="(item, itemIdx) in navigation" :key="item">
                         <template v-if="(itemIdx === 0)">
                             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="#" class="bg-indigo-600 text-white block px-3 py-2 rounded-md text-base font-medium">{{ item }}</a>
+                            <a href="/" class="bg-indigo-600 text-white block px-3 py-2 rounded-md text-base font-medium">{{ item }}</a>
                         </template>
-                        <a v-else href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">{{ item }}</a>
+                        <a v-else href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">{{ item }}</a>
                     </template>
                 </div>
                 <div class="pt-4 pb-3 border-t border-gray-700">

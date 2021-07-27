@@ -19,6 +19,10 @@ Route::group(['middleware' => 'auth'], function() {
         return redirect()->route('home');
     });
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::prefix('projects')->group(function () {
+        Route::get('/create', [App\Http\Controllers\ProjectController::class, 'create'])->name('project_create');
+    });
 });
 
 
