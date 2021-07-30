@@ -19,7 +19,7 @@
                 </ul>
             </div>
             <h1 class="text-3xl font-bold text-gray-900">
-                Welcome, Rainier
+                Welcome, {{ \Illuminate\Support\Facades\Auth::user()->name }}
             </h1>
         </div>
     </header>
@@ -33,58 +33,60 @@
                     <p class="text-gray-400">Follow any of the instructions listed below. After executing any of the instructions, a dashboard with relevant information will be shown instead.</p>
                 </div>
                 <div class="px-8 py-10 border-b border-gray-100 flex">
-                    <div class="w-1/2 space-y-6 flex justify-center flex-col">
-                        <h2 class="font-bold text-xl text-gray-900">
-                            Create a issue
-                        </h2>
-                        <div class="text-gray-400">
-                            Create a issue for your project. We will guide you to create and submit your first issue. To get started, click the button below.
+                    @role('Client')
+                        <div class="w-1/2 space-y-6 flex justify-center flex-col">
+                            <h2 class="font-bold text-xl text-gray-900">
+                                Create a issue
+                            </h2>
+                            <div class="text-gray-400">
+                                Create a issue for your project. We will guide you to create and submit your first issue. To get started, click the button below.
+                            </div>
+                            <div class="">
+                                <a href="#" class="relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Make a new issue
+                                </a>
+                            </div>
                         </div>
-                        <div class="">
-                            <a href="{{ route('project_create') }}" class="relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Make a new issue
-                            </a>
+                    @else
+                        <div class="w-1/2 space-y-6 flex justify-center flex-col">
+                            <h2 class="font-bold text-xl text-gray-900">
+                                Create a project
+                            </h2>
+                            <div class="text-gray-400">
+                                Setup a new project. We will guide you to create and install your first project. To get started, please click the button below
+                            </div>
+                            <div class="">
+                                <a href="/projects/create" class="relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Set up a project
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endrole
                     <div class="w-1/2 flex items-center justify-center align-center">
                         <img src="images/document.svg" class="w-64" alt="">
                     </div>
-
                 </div>
                 <div class="px-8 py-10">
                     <div class="grid grid-cols-3 gap-6">
-                        <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
-                            <div class="h-20 space-y-2">
-                                <p class="font-bold text-gray-900">Create a issue</p>
-                                <p class="text-gray-400">Create a new issue to get started.</p>
+                        @can('create issue')
+                            <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
+                                <div class="h-20 space-y-2">
+                                    <p class="font-bold text-gray-900">Create a issue</p>
+                                    <p class="text-gray-400">Create a new issue to get started.</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
+                                <span>
+                                   Create issue
+                                </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="mt-auto">
-                                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
-                            <span>
-                               Create issue
-                            </span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
-                            <div class="h-20 space-y-2">
-                                <p class="font-bold text-gray-900">Create a client</p>
-                                <p class="text-gray-400">Create a new client to get started.</p>
-                            </div>
-                            <div class="mt-auto">
-                                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
-                            <span>
-                               Create client
-                            </span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
+                        @endcan
+                        @can('add user')
                         <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
                             <div class="h-20 space-y-2">
                                 <p class="font-bold text-gray-900">Add a new user</p>
@@ -101,9 +103,10 @@
                                 </a>
                             </div>
                         </div>
+                        @endcan
                         <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
                             <div class="h-20 space-y-2">
-                                <p class="font-bold text-gray-900">Manage subscription</p>
+                                <p class="font-bold text-gray-900">Manage subscriptions</p>
                                 <p class="text-gray-400">View, update or cancel your subscription and billing information at any time.</p>
                             </div>
                             <div class="mt-auto">
@@ -117,41 +120,61 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
-                            <div class="h-20 space-y-2">
-                                <p class="font-bold text-gray-900">Create a invoice</p>
-                                <p class="text-gray-400">Create or edit a new invoice and send it to your clients.</p>
+                        @can('create client')
+                            <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
+                                <div class="h-20 space-y-2">
+                                    <p class="font-bold text-gray-900">Create a client</p>
+                                    <p class="text-gray-400">Create a new client to get started.</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
+                                        <span>
+                                           Create client
+                                        </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="mt-auto">
-                                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
-                            <span>
-                               Create a new invoice
-                            </span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </a>
+                        @endcan
+                        @can('create invoice')
+                            <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
+                                <div class="h-20 space-y-2">
+                                    <p class="font-bold text-gray-900">Create a invoice</p>
+                                    <p class="text-gray-400">Create or edit a new invoice and send it to your clients.</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
+                                <span>
+                                   Create a new invoice
+                                </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
-                            <div class="h-20 space-y-2">
-                                <p class="font-bold text-gray-900">Add team members</p>
-                                <p class="text-gray-400">Add team members to your system so they can edit, show or delete issues.</p>
+                        @endcan
+                        @can('add team member')
+                            <div class="border border-dashed border-gray-300 p-6 rounded-lg space-y-4">
+                                <div class="h-20 space-y-2">
+                                    <p class="font-bold text-gray-900">Add team members</p>
+                                    <p class="text-gray-400">Add team members to your system so they can edit, show or delete issues.</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
+                                <span>
+                                   Add a team member
+                                </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="mt-auto">
-                                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900 flex items-center space-x-2">
-                            <span>
-                               Add a team member
-                            </span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
+                        @endcan
                     </div>
-
-
                 </div>
             </div>
             <div class="space-y-6 hidden">

@@ -5,13 +5,6 @@
         <div class="">
             <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign into your account</h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
-                Or
-                {{ ' ' }}
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                    start your 14-day free trial
-                </a>
-            </p>
 
             <div class="bg-white rounded-lg shadow px-8 p-8 mt-8 w-96">
                 <div class="card-body">
@@ -20,11 +13,11 @@
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6">
                                 <label for="email" class="block text-sm font-medium text-gray-700">{{ __('E-Mail Address') }}</label>
-                                <input type="text" name="street-address" id="email" value="{{ old('email') }}" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" autofocus required/>
+                                <input type="text" name="email" id="email" value="{{ old('email') }}" autocomplete="email" class="@error('email') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" autofocus required/>
                                 @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
                             <div class="col-span-6">

@@ -15,7 +15,7 @@
                                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                                         <a href="/" class="bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
                                     </template>
-                                    <a v-else href="/" class="text-gray-700 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
+                                    <a v-else href="/"  class="text-gray-700 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
                                 </template>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                             <!-- Profile dropdown -->
                             <Menu as="div" class="ml-3 relative">
                                 <div>
-                                    <MenuButton class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                                    <MenuButton class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none">
                                         <span class="sr-only">Open user menu</span>
                                         <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                                     </MenuButton>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="-mr-2 flex md:hidden">
                         <!-- Mobile menu button -->
-                        <DisclosureButton class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <DisclosureButton class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-900 hover:text-gray-900 hover:bg-gray-50 focus:outline-none">
                             <span class="sr-only">Open main menu</span>
                             <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
                             <XIcon v-else class="block h-6 w-6" aria-hidden="true" />
@@ -65,28 +65,30 @@
                     <template v-for="(item, itemIdx) in navigation" :key="item">
                         <template v-if="(itemIdx === 0)">
                             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="/" class="bg-indigo-600 text-white block px-3 py-2 rounded-md text-base font-medium">{{ item }}</a>
+                            <a href="/" class="bg-indigo-600 text-white block px-3 py-2 rounded-md text-base font-medium transition-all">{{ item }}</a>
                         </template>
-                        <a v-else href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">{{ item }}</a>
+                        <a v-else href="/" class="text-gray-900 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-all">{{ item }}</a>
                     </template>
                 </div>
-                <div class="pt-4 pb-3 border-t border-gray-700">
+                <div class="pt-4 pb-3 border-t border-gray-100">
                     <div class="flex items-center px-5">
                         <div class="flex-shrink-0">
                             <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                         </div>
-                        <div class="ml-3">
-                            <div class="text-base font-medium leading-none text-white">Tom Cook</div>
+                        <div class="ml-3 space-y-2">
+                            <div class="text-base font-medium leading-none text-gray-900">Tom Cook</div>
                             <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
                         </div>
-                        <button class="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <button class="ml-auto bg-white flex-shrink-0 p-1 rounded-full text-gray-900 hover:text-indigo-600 focus:outline-none relative">
                             <span class="sr-only">View notifications</span>
                             <BellIcon class="h-6 w-6" aria-hidden="true" />
-
+                            <span class="bg-red-600 text-white shadow rounded-full text-xs h-4 w-4 absolute flex items-center justify-center font-medium top-0 right-0 p-0.5">
+                                    1
+                                </span>
                         </button>
                     </div>
                     <div class="mt-3 px-2 space-y-1">
-                        <a v-for="item in profile" :key="item" href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">{{ item }}</a>
+                        <a v-for="item in profile" :key="item" href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-white hover:bg-indigo-600 transition-all">{{ item }}</a>
                     </div>
                 </div>
             </DisclosurePanel>
