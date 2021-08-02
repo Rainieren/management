@@ -31080,11 +31080,11 @@ var _hoisted_1 = {
   "class": "max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"
 };
 var _hoisted_2 = {
-  "class": "bg-white rounded-lg shadow p-8 space-y-12"
+  "class": "bg-white rounded-lg shadow p-8 space-y-8"
 };
 
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "grid grid-cols-6 gap-6"
+  "class": "grid grid-cols-6 gap-8"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "col-span-6 space-y-2"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
@@ -31112,13 +31112,13 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
   "class": "mt-1 focus:ring-indigo-500 focus:border-indigo-600 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2",
   placeholder: "Type something awesome"
 })])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "grid col-span-6 grid-cols-3 gap-6"
+  "class": "grid col-span-6 grid-cols-3 gap-8"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "col-span-1 space-y-2"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "for": "country",
   "class": "block text-sm font-medium text-gray-700"
-}, "Client"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+}, "Repository host"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
   id: "country",
   name: "country",
   autocomplete: "country",
@@ -31140,7 +31140,7 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
   placeholder: "example-name",
   disabled: ""
 })])])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "grid col-span-6 grid-cols-3 gap-6"
+  "class": "grid col-span-6 grid-cols-3 gap-8"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "col-span-1 space-y-2"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
@@ -31189,18 +31189,50 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
   "for": "date",
   "class": "block text-sm font-medium text-gray-700"
 }, "Due date"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  type: "text",
+  type: "date",
   name: "date",
   id: "date",
   "class": "mt-1 focus:ring-indigo-500 focus:border-indigo-600 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2",
   autofocus: "",
   required: ""
-})])])], -1
+})])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "grid col-span-6 grid-cols-3 gap-8"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "col-span-2 space-y-2"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "country",
+  "class": "block text-sm font-medium text-gray-700"
+}, "Issue submission deadline"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "date",
+  name: "date",
+  id: "date",
+  "class": "mt-1 focus:ring-indigo-500 focus:border-indigo-600 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2",
+  autofocus: "",
+  required: ""
+})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "col-span-1 space-y-2 flex items-end"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex items-start"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex items-center h-5"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  id: "comments",
+  name: "comments",
+  type: "checkbox",
+  "class": "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "ml-3 text-sm"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "comments",
+  "class": "font-medium text-gray-700"
+}, "No submission deadline"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-gray-500"
+}, "Users can submit issues at all times without a limit")])])])])], -1
 /* HOISTED */
 );
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "border-b border-gray-200"
+  "class": "border-b-2 border-gray-200"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "font-medium text-2xl mb-4"
 }, "Project configuration")], -1
@@ -31208,7 +31240,7 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_5 = {
-  "class": "space-y-2"
+  "class": "space-y-4"
 };
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
@@ -31238,7 +31270,7 @@ var _hoisted_10 = {
   "class": "w-1/2 text-right"
 };
 var _hoisted_11 = {
-  "class": "space-y-2"
+  "class": "space-y-4"
 };
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
@@ -31270,7 +31302,7 @@ var _hoisted_16 = {
 
 var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"p-4 rounded-lg shadow w-full border-2 border-gray-300 hover:border-indigo-600 hover:bg-indigo-50 transition flex cursor-pointer\"><div class=\"w-1/2\"><p class=\"font-medium\">No hosting</p><p class=\"text-gray-400\">This client chooses not to include hosting</p></div><div class=\"w-1/2 text-right\"></div></div>", 1);
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"my-10\"><div class=\"grid grid-cols-1 gap-4 text-right\"><p class=\"font-medium text-2xl\">Total: € 89,49 /mo</p></div></div><div class=\"\"><button type=\"submit\" class=\"relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500\"> Send subscription request to client </button><small class=\"text-gray-400\"> This will send a subscription request to the client. After the client made the initial payment. The project with this exact configuration will be installed. </small></div>", 2);
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"my-10\"><div class=\"grid grid-cols-1 gap-4 text-right\"><p class=\"font-medium text-2xl\">Total: € 89,49 /mo</p></div></div><div class=\"\"><button type=\"submit\" class=\"relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500\"> Send subscription request to client </button><small class=\"text-gray-400\"> This will send a subscription request to the client. After the client made the initial payment. The project with this exact configuration will be installed. </small></div><p>Dear Client, <br> The project you discussed with [company] is now ready in our system for the initial payment. After you make the initial payment the project will be installed and ready for development.<br> The project you have requested has been setup using the follow configuration: [Show configuration. Package, Hosting, Name, description] After the payment went through you can start adding issues to the project, give comments and feedback to issues and follow the status of your project. For any question feel free to contact us. Kind gerards, [Company]</p>", 3);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(4, function (item) {

@@ -23,8 +23,9 @@
             </h1>
         </div>
     </header>
+    test
     <main>
-        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 hidden">
             <div class="bg-white rounded-lg shadow">
                 <div class="px-8 py-10 border-b border-gray-100">
                     <p class="font-bold text-3xl">
