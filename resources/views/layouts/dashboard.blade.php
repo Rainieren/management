@@ -11,6 +11,12 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script type="text/javascript">
+        window.Laravel = {
+            csrfToken: "{{ csrf_token() }}",
+            jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():null !!}
+        }
+    </script>
 </head>
 <body class="bg-gray-50">
 <div id="app">
@@ -18,13 +24,7 @@
 
     @yield('content')
 
-    <script>
-        @auth
-            window.Permissions = {!! json_encode(Auth::user()->allPermissions, true) !!};
-        @else
-            window.Permissions = [];
-        @endauth
-    </script>
+
 </div>
 </body>
 </html>

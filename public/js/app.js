@@ -30767,6 +30767,7 @@ var _hoisted_6 = {
   "class": "ml-10 flex items-baseline space-x-4"
 };
 var _hoisted_7 = {
+  key: 0,
   href: "/",
   "class": "bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium"
 };
@@ -30918,9 +30919,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: item
         }, [itemIdx === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
           key: 0
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Current: \"bg-gray-900 text-white\", Default: \"text-gray-300 hover:bg-gray-700 hover:text-white\" "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Current: \"bg-gray-900 text-white\", Default: \"text-gray-300 hover:bg-gray-700 hover:text-white\" "), _ctx.is('Super Admin') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("a", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1
         /* TEXT */
-        )], 2112
+        )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2112
         /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
         )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("a", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item), 1
         /* TEXT */
@@ -31298,18 +31299,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _components_Projects_Create_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Projects/Create.vue */ "./resources/js/components/Projects/Create.vue");
+/* harmony import */ var laravel_permission_to_vuejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-permission-to-vuejs */ "./node_modules/laravel-permission-to-vuejs/index.js");
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_Projects_Create_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Projects/Create.vue */ "./resources/js/components/Projects/Create.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
- //Mixins
-// Components
+ // Packages
+
+ // Components
 
 
 
 var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({});
-app.component('header-component', _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__.default);
-app.component('create-project-component', _components_Projects_Create_vue__WEBPACK_IMPORTED_MODULE_2__.default);
+app.use(laravel_permission_to_vuejs__WEBPACK_IMPORTED_MODULE_1__.default);
+app.component('header-component', _components_Header_vue__WEBPACK_IMPORTED_MODULE_2__.default);
+app.component('create-project-component', _components_Projects_Create_vue__WEBPACK_IMPORTED_MODULE_3__.default);
 app.mount('#app');
 
 /***/ }),
@@ -46688,6 +46692,78 @@ if ( typeof noGlobal === "undefined" ) {
 return jQuery;
 } );
 
+
+/***/ }),
+
+/***/ "./node_modules/laravel-permission-to-vuejs/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/laravel-permission-to-vuejs/index.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  install: (app, options) => {
+    app.config.globalProperties.can = function(value){
+    	if(window.Laravel.jsPermissions == 0){
+    		return false
+    	}
+		let permissions = window.Laravel.jsPermissions.permissions
+		let _return = false
+		if(!Array.isArray(permissions)){
+			return false
+		}
+		if(value.includes('|')){
+			value.split('|').forEach(function (item) {
+				if(permissions.includes(item.trim())){
+					_return = true
+				}
+			})
+		}else if(value.includes('&')){
+			_return = true
+			value.split('&').forEach(function (item) {
+				if(!permissions.includes(item.trim())){
+					_return = false
+				}
+			})
+		}else{
+			_return = permissions.includes(value.trim())
+		}
+		return _return
+	}
+    app.config.globalProperties.is = function(value){
+    	if(window.Laravel.jsPermissions == 0){
+    		return false
+    	}
+		let roles = window.Laravel.jsPermissions.roles
+		let _return = false
+		if(!Array.isArray(roles)){
+			return false
+		}
+		if(value.includes('|')){
+			value.split('|').forEach(function (item) {
+				if(roles.includes(item.trim())){
+					_return = true
+				}
+			})
+		}else if(value.includes('&')){
+			_return = true
+			value.split('&').forEach(function (item) {
+				if(!roles.includes(item.trim())){
+					_return = false
+				}
+			})
+		}else{
+			_return = roles.includes(value.trim())
+		}
+		return _return
+	}
+  }
+});
 
 /***/ }),
 
