@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class InvoiceController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,8 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
     }
 
     /**

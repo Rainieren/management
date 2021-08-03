@@ -27,7 +27,6 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        $user = User::find(1);
-        $user->assignRole(Role::create(['name' => 'Super Admin']));
+
     }
 }

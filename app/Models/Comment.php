@@ -42,4 +42,12 @@ class Comment extends Model
     {
         return $this->morphedByMany(Ticket::class, 'commentable');
     }
+
+    /**
+     * Get the user that is assigned to this comment.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

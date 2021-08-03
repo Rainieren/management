@@ -59,4 +59,36 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Issue::class);
     }
+
+    /**
+     * The projects that belong to the user.
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    /**
+     * The issues that belong to the user.
+     */
+    public function tickets()
+    {
+        return $this->belongsToMany(Ticket::class);
+    }
+
+    /**
+     * The team that the user belongs to
+     */
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    /**
+     * The comments that the user belongs to
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

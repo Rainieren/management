@@ -1,6 +1,8 @@
 @extends('layouts.dashboard')
 
 @section('content')
+
+
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="">
@@ -23,7 +25,17 @@
             </h1>
         </div>
     </header>
-    test
+
+    <div class="flex items-center justify-center my-5">
+        <ul>
+            <li>1. Gebruikers aanmaken</li>
+            <li>2. Rol van gebruiker instellen</li>
+            <li>3. Email met uitnodiging instellen wachtwoord</li>
+            <li>4. Verifactie na instellen wachtwoord</li>
+            <li>5. Autocomplete wachtwoord</li>
+        </ul>
+    </div>
+
     <main>
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 hidden">
             <div class="bg-white rounded-lg shadow">

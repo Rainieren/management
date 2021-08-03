@@ -26,6 +26,14 @@ class Issue extends Model
      */
     public function comments()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphToMany(Comment::class, 'commentable');
+    }
+
+    /**
+     * The users that belong to the issue.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 }
