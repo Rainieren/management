@@ -23,7 +23,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
+        'role_id',
+        'street_name',
+        'street_number',
+        'postal_code',
+        'city',
+        'state',
+        'country_id',
+        'phone'
     ];
 
     /**
@@ -44,4 +51,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The issues that belong to the user.
+     */
+    public function issues()
+    {
+        return $this->belongsToMany(Issue::class);
+    }
 }
