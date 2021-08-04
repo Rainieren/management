@@ -8,21 +8,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserInvited extends Mailable
+class PasswordChanged extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
-    public $token;
+    public $invited;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $token)
+    public function __construct(User $user, $invited)
     {
         $this->user = $user;
-        $this->token = $token;
+        $this->invited = $invited;
     }
 
     /**
@@ -32,10 +32,10 @@ class UserInvited extends Mailable
      */
     public function build()
     {
-        return $this->from('no-reply@management.com')
-                    ->subject(auth()->user()->name . ' has invited you to join the ' . config('app.name') . ' workspace')
-                    ->markdown('emails.users.invited');
+        $subject = $this->user->password ? 'Password changed' : 'Thank you for joining ' . config('app.name') . '!';
 
-        // TODO:: Generate password reset link to use in this email instead of password resets email.
+        return $this->from('no-reply@management.com')
+                    ->subject($subject)
+                    ->markdown('emails.users.passwordChanged');
     }
 }

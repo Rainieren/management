@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,18 +16,18 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 Auth::routes(['verify' => true]);
+Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', function () {
-        return redirect()->route('home');
+        $user = User::find(1);
+        return view('home', compact('user'));
     });
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::post('/user/subscribe', [App\Http\Controllers\UserController::class, 'store'])->name('subscribe');
-
-    Route::prefix('projects')->group(function () {
-        Route::get('/create', [App\Http\Controllers\ProjectController::class, 'create'])->name('project_create');
-    });
+    Route::get('/user/create', [\App\Http\Controllers\UserController::class, 'create'])->name('create.user');
+    Route::post('/user/store', [\App\Http\Controllers\UserController::class, 'store'])->name('store.user');
 });
+
+Route::post('/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])->name('reset.password');
 
 

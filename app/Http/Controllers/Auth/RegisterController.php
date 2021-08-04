@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Mail\UserInvited;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -32,7 +37,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -55,7 +60,6 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -70,12 +74,14 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
         ]);
-//          This mail needs to be send AFTER the password has been filled
-//        event(new Registered($user));
 
-        Mail::to($user)->send(new UserInvited($user));
+        $role = Role::where(['id', $data['role']])->first();
+        $user->assignRole($role->name);
+
+        $token = Password::getRepository()->create($user);
+
+        Mail::to($user->email)->send(new UserInvited($user, $token));
 
         return $user;
     }

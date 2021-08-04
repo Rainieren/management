@@ -1,9 +1,9 @@
 @component('mail::message')
-# Join {{ config('app.name') }} on [System]
+# Join {{ auth()->user()->name }}  on {{ config('app.name') }}
 
-[Name](Email) has invited you to join the [System] workspace **{{ config('app.name') }}**. Join now to start collaborating!
+**{{ auth()->user()->name }} ({{ auth()->user()->email }})** has invited you to join the [System] workspace on **{{ config('app.name') }}**. Join now to start collaborating!
 
-@component('mail::button', ['url' => 'https://www.google.nl'])
+@component('mail::button', ['url' => config('app.url').route('password.reset', ['token' => $token, 'email' => $user->email], false)])
 Join Now
 @endcomponent
 

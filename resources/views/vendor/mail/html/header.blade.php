@@ -1,10 +1,11 @@
 <tr>
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
+
 @if (trim($slot) === 'Laravel')
-<img src="https://laravel.com/img/notification-logo.png" class="logo" alt="Laravel Logo">
+    <img class="h-6 w-6" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
 @else
-{{ $slot }}
+    <img class="h-6 w-6" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
 @endif
 </a>
 </td>
