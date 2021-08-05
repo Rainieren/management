@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class IssueSeeder extends Seeder
 {
@@ -24,8 +25,11 @@ class IssueSeeder extends Seeder
         $user = User::find(1);
 
         foreach(range(1, 10) as $index) {
+            $name = $faker->realText(16);
+
             $issue = DB::table('issues')->insert([
-                'title' => $faker->title,
+                'title' => $name,
+                'slug' => Str::slug($name),
                 'description' => $faker->text,
                 'project_id' => $faker->numberBetween($min = 0, $max = 10),
                 'created_at' => Carbon::now(),

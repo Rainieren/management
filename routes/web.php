@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,12 +21,15 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', function () {
-        $user = User::find(1);
-        return view('home', compact('user'));
+        $plans = Plan::all();
+        return view('home', compact('plans'));
     });
 
     Route::get('/user/create', [\App\Http\Controllers\UserController::class, 'create'])->name('create.user');
     Route::post('/user/store', [\App\Http\Controllers\UserController::class, 'store'])->name('store.user');
+
+    Route::get('/subscription/{slug}/checkout', [\App\Http\Controllers\SubscriptionController::class, 'index'])->name('subscription.checkout');
+    Route::post('/subscription/{slug}/store', [\App\Http\Controllers\SubscriptionController::class, 'store'])->name('subscription.store');
 });
 
 Route::post('/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])->name('reset.password');

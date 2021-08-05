@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class TicketSeeder extends Seeder
 {
@@ -23,8 +24,10 @@ class TicketSeeder extends Seeder
         $user = User::find(1);
 
         foreach(range(1, 10) as $index) {
+            $name = $faker->sentence(3);
             $tickets = DB::table('tickets')->insert([
-                'title' => $faker->sentence(3),
+                'title' => $name,
+                'slug' => Str::slug($name),
                 'description' => $faker->text,
                 'priority_id' => $faker->numberBetween(0,3),
                 'user_id' => 1,

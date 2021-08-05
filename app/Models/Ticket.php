@@ -10,6 +10,15 @@ class Ticket extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'slug'
+    ];
+
+    /**
      * Get all of the comments for the ticket.
      */
     public function comments()
