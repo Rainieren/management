@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,6 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-       //
+        $plans = Plan::all();
+        $user = auth()->user();
+        return view('home', compact('plans', 'user'));
     }
 }

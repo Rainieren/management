@@ -22,24 +22,35 @@
                                 <p class="text-gray-500">{{ auth()->user()->phone }}</p>
                             @else
                                 <p class="text-sm text-gray-500">There is no billing information available for this account. Please add the additional information to your
-                                    <a href="" class="text-indigo-600">account</a> before you continue.</p>
+                                <a href="{{ route('show.user.billing', ['name' => auth()->user()->name]) }}" class="text-indigo-600">account</a> before you continue.</p>
                             @endif
-
                         </div>
                     </div>
                     <div class="py-4 pt-4 mt-4">
                         <p class="text-xl font-medium">Payment details</p>
-                        <form action="{{ route('subscription.store', ['slug', $plan->slug]) }}" method="POST" class="space-y-4" id="payment-form">
+                        <form action="{{ route('subscription.store') }}" method="post" id="payment-form" class="space-y-4" data-secret="{{ $intent->client_secret }}">
                             @csrf
-                            <input type="hidden" name="plan" id="plan" value="{{ $plan }}">
-                            <div class="">
-                                <label for="card-holder-name" class="block text-sm font-medium text-gray-700">{{ __('Card holder') }}</label>
-                                <input id="card-holder-name" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" placeholder="Card holder">
-                            </div>
-                            <div id="card-element" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"></div>
-                            <button id="card-button" data-secret="{{ $intent->client_secret }}" class="relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Place order</button>
-                        </form>
+                            <input type="hidden" name="plan" id="{{ $plan->name }}" value="{{ $plan->stripe_plan_id  }}">
 
+                            <div class="">
+                                <label for="card-holder-name" class="block text-sm font-medium text-gray-700">Card holder name</label>
+                                <input id="card-holder-name" type="text" name="card-holder-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2">
+                                @error('card-holder-name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="">
+                                <label for="card-element" class="block text-sm font-medium text-gray-700">Card number</label>
+                                <div id="card-element" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"></div>
+                            </div>
+
+                            <div id="card-errors" role="alert"></div>
+
+                            <button class="relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {{ __('Subscribe to ') }} {{ $plan->name }}</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -69,7 +80,7 @@
                         You can cancel at any time within your <a href="" class="text-indigo-600">account settings.</a> No strings attached.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow p-8 space-y-4 flex flex-col">
+                <div class="bg-white rounded-lg shadow p-8 space-y-4 flex flex-col hidden">
                     <p class="font-bold text-xl">Coupon</p>
                     <input type="text" placeholder="Enter your code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2">
                     <p class="text-red-600">You can't apply coupons on a free order</p>
@@ -78,12 +89,64 @@
                 </div>
 
             </div>
-
         </div>
-
     </div>
 @endsection
 
 @section('scripts')
+    <script>
+        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        var elements = stripe.elements();
+        var card = elements.create('card');
 
+        card.mount('#card-element');
+
+        card.on('change', function(event) {
+           var displayError = document.getElementById('card-errors');
+           if(event.error) {
+               displayError.textContent = event.error.message;
+           } else {
+               displayError.textContent = '';
+           }
+        });
+
+        var form = document.getElementById('payment-form');
+        var cardHolderName = document.getElementById('card-holder-name');
+        var clientSecret = form.dataset.secret;
+        const cardButton = document.getElementById('card-button');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const { setupIntent, error } = await stripe.confirmCardSetup(
+                clientSecret, {
+                    payment_method: {
+                        card,
+                        billing_details: { name: cardHolderName.value }
+                    }
+                }
+            );
+
+            if (error) {
+                // Display "error.message" to the user...
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+                // The card has been verified successfully...
+                // console.log(setupIntent)
+                stripeTokenHandler(setupIntent);
+            }
+        });
+
+        function stripeTokenHandler(setupIntent) {
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'paymentMethod');
+            hiddenInput.setAttribute('value', setupIntent.payment_method);
+            form.appendChild(hiddenInput);
+
+            form.submit();
+        }
+    </script>
 @endsection

@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\UserInvited;
+use App\Mail\UserSubscribed;
 use App\Models\Plan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class SubscriptionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index($id)
     {
         $plan = Plan::where('slug', $id)->first();
-        $data = [
-            'intent' => Auth()->user()->createSetupIntent()
-        ];
 
-        return view('billings.checkout', compact('plan'))->with($data);
+        $intent = auth()->user()->createSetupIntent();
+
+        return view('billings.checkout', compact('plan', 'intent'));
     }
 
     /**
@@ -36,20 +39,19 @@ class SubscriptionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, $slug)
+    public function store(Request $request)
     {
-        dd($request->all());
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
 
-        $plan = Plan::where('slug', $slug)->first();
+//        dd($request->all());
+        $plan = Plan::where('stripe_plan_id', $request->plan)->first();
 
-        $request->user()->newSubscription('default', $plan->stripe_plan_id)->create($request->token);
+        auth()->user()->newSubscription($plan->name, $request->plan)->create($request->paymentMethod);
 
-        return back();
+        Mail::to(auth()->user()->email)->send(new UserSubscribed(auth()->user(), $plan));
+
+        return view('billings.confirmation', compact('plan'));
     }
 
     /**
@@ -96,4 +98,21 @@ class SubscriptionController extends Controller
     {
         //
     }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function swap(Request $request)
+    {
+//        dd(auth()->user()->subscriptions[0]->stripe_price);
+//        $plan = Plan::where('stripe_plan_id', $request->plan)->first();
+//        dd($request->user()->subscription('Basic'), $request->user()->subscriptions[0]->name);
+//        $current_plan = $request->user()->subscriptions[0]->stripe_price;
+        $user = $request->user();
+        $user->subscription($user->subscriptions[0]->name)->noProrate()->swap($request->plan);
+
+        return back();
+    }
+
+
 }

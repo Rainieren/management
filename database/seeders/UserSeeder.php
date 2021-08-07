@@ -23,9 +23,13 @@ class UserSeeder extends Seeder
             'name' => 'Rainier',
             'email' => 'Rainier.laan@home.nl',
             'password' => Hash::make("Test123"),
+            'stripe_id' => 'cus_JzTxgDKjfo3sXX',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        $user = User::find(1);
+        $user->assignRole('Super admin');
+
 
 
     }

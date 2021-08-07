@@ -9,16 +9,15 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <script type="text/javascript">
-        window.Laravel = {
-            csrfToken: "{{ csrf_token() }}",
-            jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():null !!}
-        }
-    </script>
+{{--    <script type="text/javascript">--}}
+{{--        window.Laravel = {--}}
+{{--            csrfToken: "{{ csrf_token() }}",--}}
+{{--            jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():null !!}--}}
+{{--        }--}}
+{{--    </script>--}}
+
 </head>
 <body class="bg-gray-50">
 <div id="app" class="flex flex-col">
@@ -186,6 +185,9 @@
         </div>
     </div>
 </div>
-@yield('scripts')
 </body>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+@yield('scripts')
 </html>

@@ -33,6 +33,7 @@
         "@tailwindcss/forms": "^0.3.3",
         "@tailwindcss/line-clamp": "^0.2.1",
         "@tailwindcss/typography": "^0.4.1",
+        "canvas-confetti": "^1.4.0",
         "laravel-permission-to-vuejs": "^3.0.0"
     }
 }

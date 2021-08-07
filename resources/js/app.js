@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('canvas-confetti');
 
 import { createApp } from 'vue';
 // Packages

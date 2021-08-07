@@ -3,13 +3,29 @@
 @section('content')
     <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <a href="{{ route('create.user') }}" class="hidden relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create user</a>
+        <a href="{{ route('show.user.billing', ['name' => auth()->user()->name]) }}" class="relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Show user</a>
+
+        <ul class="hidden">
+            <li>Email with subscription confirmation</li>
+            <li>See your current subscription</li>
+            <li>Show payment method used on email & confirmation</li>
+            <li>User is not allowed to have 2 subscriptions at once</li>
+            <li>User should be able to download each invoice each month</li>
+        </ul>
+
+        {{ auth()->user()->name }}
         <div class="grid grid-cols-3 gap-6">
+
             <div class="col-span-3">
                 <h1 class="font-bold text-4xl">Choose a plan to get started</h1>
             </div>
             @foreach($plans as $plan)
+
             <div class="col-span-1 bg-white shadow rounded-lg flex flex-col border">
                 <div class="p-8 space-y-4 flex-grow">
+                    @if( auth()->user()->subscribed($plan->name) )
+                        You're subscribed to this plan
+                    @endif
                     <p class="text-bold text-2xl font-medium">{{ $plan->name }}</p>
                     <p class="font-bold text-3xl">${{ number_format($plan->price / 100, 2) }} <span class="font-medium text-lg text-gray-600">/ mo</span></p>
                     <p class="text-gray-400">{{ $plan->description }}</p>
@@ -53,3 +69,5 @@
 
 
 @endsection
+
+

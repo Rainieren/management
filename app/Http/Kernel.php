@@ -2,6 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\NotSubscribedCustomer;
+use App\Http\Middleware\RedirectIfNotAuth;
+use App\Http\Middleware\SubscribedCustomer;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -62,5 +65,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'subscribed.customer' => SubscribedCustomer::class,
+        'not.subscribed.customer' => NotSubscribedCustomer::class,
+        'only.owner' => RedirectIfNotAuth::class
     ];
 }
