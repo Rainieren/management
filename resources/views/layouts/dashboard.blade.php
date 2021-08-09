@@ -22,9 +22,22 @@
 <body class="bg-gray-50">
 <div id="app" class="flex flex-col">
     <header-component></header-component>
-
     <main class="flex-grow">
-        @yield('content')
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            @if(auth()->user()->onTrial())
+                <div class="flex bg-indigo-50 border border-indigo-600 text-indigo-600 rounded-lg px-8 py-4 space-x-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="">
+                        Your trial ends in {{ auth()->user()->trial_ends_at->longAbsoluteDiffForHumans() }}. Please <a href="" class="underline font-medium">upgrade now</a>.
+                    </p>
+                </div>
+            @endif
+        </div>
+        <div class="max-w-7xl mx-auto pt-4 pb-12 px-4 sm:px-6 lg:px-8 space-y-4">
+            @yield('content')
+        </div>
     </main>
 
     <div class="border-t border-gray-200 bg-white">

@@ -4,8 +4,7 @@
     <div class="flex flex-col items-center justify-center h-screen">
         <div class="">
             <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign into your account</h2>
-
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">{{ __('Sign into your account') }}</h2>
             <div class="bg-white rounded-lg shadow px-8 p-8 mt-8 w-96">
                 <div class="card-body">
                     <form class="" method="POST" action="{{ route('login') }}">

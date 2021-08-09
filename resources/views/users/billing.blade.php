@@ -1,9 +1,8 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-8 gap-6 mb-6">
-            <div class="col-span-2">
+            <div class="col-span-8 md:col-span-2">
                 <ul class="space-y-2">
                     <li class="px-4 py-2 transition rounded-lg hover:bg-indigo-600 hover:text-white flex cursor-pointer space-x-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,9 +29,15 @@
                         </svg>
                         <span>{{ __('Plan & Billing') }}</span>
                     </li>
+                    <li class="px-4 py-2 transition rounded-lg hover:bg-indigo-600 hover:text-white flex cursor-pointer space-x-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                        </svg>
+                        <span>{{ __('Integrations') }}</span>
+                    </li>
                 </ul>
             </div>
-            <div class="col-span-6 space-y-6">
+            <div class="col-span-8 md:col-span-6 space-y-6">
                 <div class="bg-white rounded-lg shadow">
                     <div class="space-y-6 p-8">
                         <div class="">
@@ -42,19 +47,19 @@
                         <form action="{{ route('store.user.payment_details', ['name', $user->name]) }}" method="POST" id="payment-details">
                             @csrf
                             <div class="grid grid-cols-6 gap-4">
-                                <div class="col-span-3">
+                                <div class="col-span-6 sm:col-span-3">
                                     <label for="name" class="block text-sm font-medium text-gray-700">{{ __('Full name') }}</label>
                                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="name" value="{{ $user->name }}" required autocomplete="name">
                                 </div>
-                                <div class="col-span-3">
+                                <div class="col-span-6 sm:col-span-3">
                                     <label for="email" class="block text-sm font-medium text-gray-700">{{ __('E-Mail Address') }}</label>
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="email" value="{{ $user->email }}" required autocomplete="email">
                                 </div>
-                                <div class="col-span-3">
+                                <div class="col-span-6 sm:col-span-3">
                                     <label for="street_name" class="block text-sm font-medium text-gray-700">{{ __('Street name') }}</label>
                                     <input id="street_name" type="text" class="form-control @error('street_name') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="street_name" value="{{ $user->street_name }}" required autocomplete="street_name">
                                 </div>
-                                <div class="col-span-3">
+                                <div class="col-span-6 sm:col-span-3">
                                     <label for="street_number" class="block text-sm font-medium text-gray-700">{{ __('Apt, Suite etc.') }}</label>
                                     <input id="street_number" type="text" class="form-control @error('street_number') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="street_number" value="{{ $user->street_number }}" required autocomplete="street_number">
                                 </div>
@@ -64,17 +69,17 @@
                                         <option selected>Open this select menu</option>
                                     </select>
                                 </div>
-                                <div class="col-span-2">
+                                <div class="col-span-6 sm:col-span-2">
                                     <label for="city" class="block text-sm font-medium text-gray-700">{{ __('City') }}</label>
                                     <input id="city" type="text" class="form-control @error('city') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="city" value="{{ $user->city }}" required autocomplete="city">
                                 </div>
-                                <div class="col-span-2">
+                                <div class="col-span-6 sm:col-span-2">
                                     <label for="state" class="block text-sm font-medium text-gray-700">{{ __('State') }}</label>
                                     <select class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="state" aria-label="Default select example">
                                         <option selected>Open this select menu</option>
                                     </select>
                                 </div>
-                                <div class="col-span-2">
+                                <div class="col-span-6 sm:col-span-2">
                                     <label for="postal_code" class="block text-sm font-medium text-gray-700">{{ __('Postal code') }}</label>
                                     <input id="postal_code" type="text" class="form-control @error('postal_code') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="postal_code" value="{{ $user->postal_code }}" required autocomplete="postal_code">
 
@@ -86,7 +91,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="flex justify-end px-8 py-4 bg-gray-50">
+                    <div class="flex justify-end px-8 py-4 bg-gray-50 rounded-b-lg">
                         <button class="relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 onclick="document.getElementById('payment-details').submit();">
                             {{ __('Save') }}
@@ -96,7 +101,7 @@
                 <div class="bg-white rounded-lg shadow p-8 space-y-4">
                     <div class="">
                         <p class="font-medium text-lg">{{ __('Plan') }}</p>
-                        <div class="text-sm text-gray-500">
+                        <p class="text-sm text-gray-500">
                             @if($user->subscriptions->count())
                                 You're currently subscribed to the
                                 @foreach($user->subscriptions as $subscription)
@@ -105,92 +110,139 @@
                             @else
                                 You're currently not subscribed to any plan
                             @endif
+                        </p>
+                        <div class="grid grid-cols-2">
+                            <div class="col-span-2">
+                                @if($user->subscriptions->count())
+                                    @if($user->subscriptions()->first()->ends_at)
+                                        <p class="text-sm text-gray-500">Subscription ends at: {{ $user->subscriptions()->first()->ends_at->toFormattedDateString() }}</p>
+                                    @else
+                                    <p class="text-sm text-gray-500">Next billing date: {{ \Carbon\Carbon::createFromTimestamp($user->subscriptions()->first()->asStripeSubscription()->current_period_end)->toFormattedDateString() }}</p>
+                                    @endif
+                                @endif
+                            </div>
+                        </div>
+                        </div>
+                        <div class="space-y-4">
+                            @foreach($plans as $plan)
+                                <div class="border border-gray-200 rounded-lg flex justify-between p-4 @if( auth()->user()->subscribed($plan->name) ) bg-indigo-50 border-2 border-indigo-600 @endif" >
+                                    <div class="flex flex-col w-1/3">
+                                        <p class="font-medium">{{ $plan->name }}</p>
+                                        <p class="text-sm text-gray-500">{{ substr($plan->description, 0, 32) }}</p>
+                                    </div>
+                                    <div class="flex items-center justify-center w-1/3">
+                                        <p class="font-medium">${{ number_format($plan->price / 100, 2) }} / mo</p>
+                                    </div>
+                                    <div class="flex items-center justify-end w-1/3">
+                                        @if($user->onTrial() || !auth()->user()->subscribed($plan->name))
+                                            <form action="{{ route('subscription.swap') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="plan" value="{{ $plan->stripe_plan_id }}">
+                                                <button type="submit" class="font-medium text-indigo-600">Upgrade</button>
+                                            </form>
+                                        @elseif($user->subscriptions()->first()->ends_at)
+                                            <form action="{{ route('subscription.resume') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="plan" value="{{ $plan->name }}">
+                                                <button type="submit" class="font-medium text-indigo-600">Resume subscription</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('subscription.cancel') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="plan" value="{{ $plan->name }}">
+                                                <button type="submit" class="font-medium text-indigo-600">Cancel subscription</button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        @foreach($plans as $plan)
-                            <div class="border border-gray-200 rounded-lg flex justify-between p-4 @if( auth()->user()->subscribed($plan->name) ) bg-indigo-50 border-2 border-indigo-600 @endif" >
-                                <div class="flex flex-col w-1/3">
-                                    <p class="font-medium">{{ $plan->name }}</p>
-                                    <p class="text-sm text-gray-500">{{ substr($plan->description, 0, 32) }}</p>
-                                </div>
-                                <div class="flex items-center">
-                                    <p class="font-medium">${{ number_format($plan->price / 100, 2) }} / mo</p>
-                                </div>
-                                <div class="flex items-center">
-                                    @if($user->subscriptions->count())
-                                        <form action="{{ route('subscription.swap') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="plan" value="{{ $plan->stripe_plan_id }}">
-                                            <button type="submit" class="font-medium text-indigo-600">Upgrade</button>
-                                        </form>
-                                    @else
-                                        <a href="{{ route('subscription.checkout', ['slug' => $plan->slug]) }}" class="font-medium text-indigo-600">Subscribe</a>
-                                    @endif
+                    <div class=" bg-white rounded-lg shadow">
+                        <div class="p-8 space-y-4">
+                            <p class="font-medium text-lg">Billing history</p>
+                            {{ $invoices->links() }}
+                        </div>
+                        <div class="rounded-b-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Date
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Desciption
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Amount
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 
-                                </div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($invoices as $invoice)
+                                        <tr class="text-sm">
+                                            <td class="px-6 py-4 whitespace-nowrap rounded-bl-lg">
+                                                {{ $invoice->date()->toDateString() }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                {{ $invoice->description }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                {{ $invoice->total() }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap flex text-gray-500">
+                                                @if($invoice->paid)
+                                                    <div class="bg-green-100 flex text-green-800 px-3 rounded-full">Paid</div>
+                                                @else
+                                                    <div class="bg-orange-50 flex text-orange-500 px-3 rounded-full">Needs payment</div>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium rounded-br-lg space-x-4">
+                                                @if(!$invoice->paid)
+                                                    <a class="font-medium text-indigo-600" href="">Pay</a>
+                                                @endif
+                                                <a class="font-medium text-indigo-600" href="{{ route('download.invoice', ['name' => $user->name, 'invoice' => $invoice->id]) }}">Download invoice</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-8 space-y-4">
+                            <div class="">
+                                <p class="font-medium text-lg">Stripe configuration</p>
+                                <p class="text-gray-500 text-sm">{{ __('Setup your Stripe payment configuration to allow payments.') }}
+                                <a href="" class="text-indigo-600">Click here</a> {{ __('for a guide on how you can setup your configuration.') }}</p>
                             </div>
-                        @endforeach
-                    </div>
-                </div>
-                <div class=" bg-white rounded-lg shadow">
-                    <div class="p-8 space-y-4">
-                        <p class="font-medium text-lg">Billing history</p>
-                        {{ $invoices->links() }}
-                    </div>
-                    <div class="rounded-b-lg">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Date
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Desciption
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Amount
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($invoices as $invoice)
-                                    <tr class="text-sm">
-                                        <td class="px-6 py-4 whitespace-nowrap rounded-bl-lg">
-                                            {{ $invoice->date()->toDateString() }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">
-                                            {{ $invoice->description }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">
-                                            {{ $invoice->total() }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap flex text-gray-500">
-                                            @if($invoice->paid)
-                                                <div class="bg-green-100 flex text-green-800 px-3 rounded-full">Paid</div>
-                                            @else
-                                                <div class="bg-orange-50 flex text-orange-500 px-3 rounded-full">Needs payment</div>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium rounded-br-lg space-x-4">
-                                            @if(!$invoice->paid)
-                                                <a class="font-medium text-indigo-600" href="">Pay</a>
-                                            @endif
-                                            <a class="font-medium text-indigo-600" href="{{ route('download.invoice', ['name' => $user->name, 'invoice' => $invoice->id]) }}">Download invoice</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                            <form action="" method="POST" id="payment-details">
+                                @csrf
+                                <div class="grid grid-cols-6 gap-4">
+                                    <div class="col-span-6">
+                                        <label for="name" class="block text-sm font-medium text-gray-700">{{ __('Stripe public key') }}</label>
+                                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="name" value="{{ $user->name }}" required autocomplete="name">
+                                    </div>
+                                    <div class="col-span-6">
+                                        <label for="name" class="block text-sm font-medium text-gray-700">{{ __('Stripe secret key') }}</label>
+                                        <input id="name" type="password" class="form-control @error('name') is-invalid @enderror mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" name="name" value="{{ $user->name }}" required autocomplete="name">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="flex justify-end px-8 py-4 bg-gray-50 rounded-b-lg">
+                            <button class="relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    onclick="document.getElementById('payment-details').submit();">
+                                {{ __('Save') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-@endsection
+    @endsection

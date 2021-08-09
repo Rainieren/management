@@ -15,10 +15,36 @@
                                 <template v-for="(item, itemIdx) in navigation" :key="item">
                                     <template v-if="(itemIdx === 0)">
                                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                        <a href="/" class="bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium">{{ item }}</a>
+                                        <a :href="item.href" class="bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium">{{ item.name }}</a>
                                     </template>
-                                    <a v-else href="/"  class="text-gray-700 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">{{ item }}</a>
+                                    <a v-else :href="item.href"  class="text-gray-700 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">{{ item.name }}</a>
                                 </template>
+                                <Popover class="relative" v-slot="{ open }">
+                                    <PopoverButton :class="[open ? 'text-gray-900' : 'text-gray-700', 'group bg-white px-3 py-2 text-sm rounded-md inline-flex items-center font-medium hover:text-gray-900 focus:outline-none']">
+                                        <span>Company</span>
+                                        <ChevronDownIcon :class="[open ? 'text-gray-600' : 'text-gray-400', 'ml-2 h-5 w-5 group-hover:text-gray-500']" aria-hidden="true" />
+                                    </PopoverButton>
+
+                                    <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 translate-y-1" enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
+                                        <PopoverPanel class="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+                                            <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                                <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                                                    <a v-for="item in solutions" :key="item.name" :href="item.href" class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
+                                                        <component :is="item.icon" class="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
+                                                        <div class="ml-4">
+                                                            <p class="text-base font-medium text-gray-900">
+                                                                {{ item.name }}
+                                                            </p>
+                                                            <p class="mt-1 text-sm text-gray-500">
+                                                                {{ item.description }}
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </PopoverPanel>
+                                    </transition>
+                                </Popover>
                             </div>
                         </div>
                     </div>
@@ -70,11 +96,15 @@
                     <template v-for="(item, itemIdx) in navigation" :key="item">
                         <template v-if="(itemIdx === 0)">
                             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="/" class="bg-indigo-600 text-white block px-3 py-2 rounded-md text-base transition-all">{{ item }}</a>
+                            <a :href="item.href" class="bg-indigo-600 text-white block px-3 py-2 rounded-md text-sm transition-all">{{ item.name }}</a>
                         </template>
-                        <a v-else href="/" class="text-gray-900 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-sm transition-all">{{ item }}</a>
+                        <a v-else :href="item.href" class="text-gray-900 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-sm transition-all">{{ item.name }}</a>
                     </template>
+                    <a v-for="item in solutions" :key="item.name" :href="item.href" class="text-gray-900 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-sm transition-all">
+                        {{ item.name }}
+                    </a>
                 </div>
+
                 <div class="pt-4 pb-3 border-t border-gray-100">
                     <div class="flex items-center px-5">
                         <div class="flex-shrink-0">
@@ -110,11 +140,49 @@
 
 <script>
 import { ref } from 'vue'
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
-
-const navigation = ['Dashboard', 'Issues', 'Tickets', 'Invoices', 'Projects', 'Clients', 'Team', 'Employees']
-
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue'
+import { BellIcon, MenuIcon, XIcon, ChevronDownIcon, ChartBarIcon,
+    CursorClickIcon,
+    ViewGridIcon,
+    UserGroupIcon,
+UserIcon,
+UsersIcon} from '@heroicons/vue/outline'
+const solutions = [
+    {
+        name: 'Teams',
+        description: 'Manage the teams within your organisation',
+        href: '#',
+        icon: UserGroupIcon,
+    },
+    {
+        name: 'Employees',
+        description: "Manage the employees within your organisation",
+        href: '#',
+        icon: UsersIcon,
+    },{
+        name: 'Clients',
+        description: 'Manage or get in touch with your clients.',
+        href: '#',
+        icon: UserIcon,
+    }
+]
+const navigation = [{
+        name: 'Dashboard',
+        href: '/',
+    },
+    {
+        name: 'Issues',
+        href: '#',
+    },{
+        name: 'Tickets',
+        href: '#',
+    },{
+        name: 'Invoices',
+        href: '/invoices',
+    },{
+        name: 'Projects',
+        href: '#',
+    }]
 const profile = ['Account', 'Manage subscription', 'Settings', 'Support']
 
 export default {
@@ -129,11 +197,22 @@ export default {
         BellIcon,
         MenuIcon,
         XIcon,
+        Popover,
+        PopoverButton,
+        PopoverGroup,
+        PopoverPanel,
+        ChevronDownIcon,
+        ChartBarIcon,
+        CursorClickIcon,
+        ViewGridIcon,
+        UserIcon,
+        UsersIcon
     },
     setup() {
         const open = ref(false)
 
         return {
+            solutions,
             navigation,
             profile,
             open,

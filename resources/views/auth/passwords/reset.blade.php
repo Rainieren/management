@@ -5,8 +5,8 @@
         <div class="w-96">
             <div class="space-y-4">
                 <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Choose a password</h2>
-                <p class="text-center mt-4">You'll use your email adress <b>{{ $email }}</b> and a password so sign into [application]</p>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">{{ __('Choose a password') }}</h2>
+                <p class="text-center mt-4">{{ __("You'll use your email address") }} <b>{{ $email }}</b> {{ __('and a password so sign into') }} {{ env('APP_NAME') }}</p>
             </div>
 
 
@@ -45,8 +45,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </button>
-                            <p class="text-xs text-gray-900">By proceeding to create your account and use [Application], you are agreeing to our
-                                <a href="" class="text-indigo-600">Terms of service</a> and <a href="" class="text-indigo-600">Privacy Policy</a>. If you wish to not agree, you cannot use [application].</p>
+                            <p class="text-xs text-gray-900">{{ __('By proceeding to create your account and use [Application], you are agreeing to our') }}
+                                <a href="" class="text-indigo-600">{{ __('Terms of service') }}</a> {{ __('and') }} <a href="" class="text-indigo-600">{{ __('Privacy Policy') }}</a>. {{ __('If you wish to not agree, you cannot use') }} {{ env('APP_NAME') }}</p>
                         </div>
                     </div>
                 </form>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\UserInvited;
 use App\Mail\UserSubscribed;
 use App\Models\Plan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -45,9 +46,15 @@ class SubscriptionController extends Controller
     {
 
 //        dd($request->all());
+        $user = User::find(auth()->user()->id);
         $plan = Plan::where('stripe_plan_id', $request->plan)->first();
 
-        auth()->user()->newSubscription($plan->name, $request->plan)->create($request->paymentMethod);
+        $subscription = $user->newSubscription($plan->name, $request->plan)
+                    ->trialDays(7)
+                    ->create($request->paymentMethod);
+
+        $user->trial_ends_at = $subscription->trial_ends_at;
+        $user->save();
 
         Mail::to(auth()->user()->email)->send(new UserSubscribed(auth()->user(), $plan));
 
@@ -104,12 +111,39 @@ class SubscriptionController extends Controller
      */
     public function swap(Request $request)
     {
-//        dd(auth()->user()->subscriptions[0]->stripe_price);
-//        $plan = Plan::where('stripe_plan_id', $request->plan)->first();
-//        dd($request->user()->subscription('Basic'), $request->user()->subscriptions[0]->name);
-//        $current_plan = $request->user()->subscriptions[0]->stripe_price;
         $user = $request->user();
+
+        $plan = Plan::where('stripe_plan_id', $request->plan)->first();
+        $subscription = $user->subscription($user->subscriptions[0]->name);
+
         $user->subscription($user->subscriptions[0]->name)->noProrate()->swap($request->plan);
+
+        $subscription->name = $plan->name;
+        $subscription->save();
+
+//        $user->subs
+
+        return back();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancel(Request $request)
+    {
+        $request->user()->subscription($request->plan)->cancel();
+
+        return back();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function resume(Request $request)
+    {
+        $request->user()->subscription($request->plan)->resume();
 
         return back();
     }

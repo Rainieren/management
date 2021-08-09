@@ -156,13 +156,22 @@ class UserController extends Controller
     public function showBilling($name)
     {
         $user = User::where('name', $name)->first();
-        $plans = Plan::all();
 
+        $subscription = '';
+        if($user->subscriptions->count()) {
+            $subscription = $user->subscriptions()->first()->asStripeSubscription();
+        }
+
+        $plans = Plan::all();
 
         $invoices = new Paginator($user->invoices(), 5);
         $invoices->withPath(route('show.user.billing', ['name' => $user->name]));
 
-        return view('users.billing', compact('user', 'plans', 'invoices'));
+        if($subscription) {
+            return view('users.billing', compact('user', 'plans', 'invoices', 'subscription'));
+        } else {
+            return view('users.billing', compact('user', 'plans', 'invoices'));
+        }
     }
 
     /**

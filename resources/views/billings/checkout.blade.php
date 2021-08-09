@@ -1,18 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-3 gap-6">
             <div class="col-span-2 bg-white rounded-lg shadow p-8 space-y-2">
                 <div class="space-y-2 mb-4">
-                    <p class="font-bold text-2xl">Subscription details</p>
+                    <p class="font-bold text-2xl">{{ __('Order details') }}</p>
                     <p class="">{{ $plan->name }} — $ {{ number_format($plan->price / 100, 2) }} per month</p>
                     <p class="text-sm uppercase tracking-wide font-medium">What's included?</p>
                     <p class="text-sm text-gray-500">{{ $plan->description }}</p>
                 </div>
                 <div class="divide-gray-200 divide-y">
                     <div class="py-4 pt-4 mt-4 space-y-2">
-                        <p class="text-xl font-medium">Billing information</p>
+                        <p class="text-xl font-medium">{{ __('Billing information') }}</p>
                         <div>
                             @if(auth()->user()->street_name || auth()->user()->street_number || auth()->user()->postal_code || auth()->user()->city || auth()->user()->state || auth()->user()->country_id)
                                 <p class="text-gray-500">{{ auth()->user()->name }}</p>
@@ -27,13 +26,13 @@
                         </div>
                     </div>
                     <div class="py-4 pt-4 mt-4">
-                        <p class="text-xl font-medium">Payment details</p>
+                        <p class="text-xl font-medium">{{ __('Payment details') }}</p>
                         <form action="{{ route('subscription.store') }}" method="post" id="payment-form" class="space-y-4" data-secret="{{ $intent->client_secret }}">
                             @csrf
                             <input type="hidden" name="plan" id="{{ $plan->name }}" value="{{ $plan->stripe_plan_id  }}">
 
                             <div class="">
-                                <label for="card-holder-name" class="block text-sm font-medium text-gray-700">Card holder name</label>
+                                <label for="card-holder-name" class="block text-sm font-medium text-gray-700">{{ __('Card holder name') }}</label>
                                 <input id="card-holder-name" type="text" name="card-holder-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2">
                                 @error('card-holder-name')
                                     <span class="invalid-feedback" role="alert">
@@ -42,7 +41,7 @@
                                 @enderror
                             </div>
                             <div class="">
-                                <label for="card-element" class="block text-sm font-medium text-gray-700">Card number</label>
+                                <label for="card-element" class="block text-sm font-medium text-gray-700">{{ __('Card number') }}</label>
                                 <div id="card-element" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"></div>
                             </div>
 
@@ -56,23 +55,23 @@
             </div>
             <div class="col-span-1 space-y-4">
                 <div class="bg-white rounded-lg shadow p-8 space-y-4 flex flex-col">
-                    <p class="font-bold text-2xl">Order summary</p>
+                    <p class="font-bold text-2xl">{{ __('Order summary') }}</p>
                     <div class="divide-gray-100 divide-y">
                         <div class="flex justify-between py-4">
                             <p class="">1x {{ $plan->name }}</p>
                             <p>$ {{ number_format($plan->price / 100, 2) }}</p>
                         </div>
                         <div class="flex justify-between py-4">
-                            <p class="">Subtotal</p>
+                            <p class="">{{ __('Subtotal') }}</p>
                             <p>$ {{ number_format($plan->price / 100, 2) }}</p>
                         </div>
                         <div class="flex justify-between py-4">
-                            <p class="">Free trail period</p>
-                            <p>7 Days</p>
+                            <p class="">{{ __('Free trail period') }}</p>
+                            <p>{{ __('7 Days') }}</p>
                         </div>
                     </div>
                     <div class="flex justify-between font-medium text-2xl">
-                        <p class="">Total</p>
+                        <p class="">{{ __('Total') }}</p>
                         <p>$ {{ number_format(($plan->price / 100) - ($plan->price / 100), 2) }} <span class="text-gray-500 text-base font-medium">/mo</span></p>
                     </div>
                     <div class="flex justify-end text-xs text-gray-500">
@@ -80,8 +79,8 @@
                         You can cancel at any time within your <a href="" class="text-indigo-600">account settings.</a> No strings attached.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow p-8 space-y-4 flex flex-col hidden">
-                    <p class="font-bold text-xl">Coupon</p>
+                <div class="bg-white rounded-lg shadow p-8 space-y-4 flex flex-col">
+                    <p class="font-bold text-xl">{{ __('Coupon') }}</p>
                     <input type="text" placeholder="Enter your code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2">
                     <p class="text-red-600">You can't apply coupons on a free order</p>
                     <button id="card-button" class="relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Apply coupon</button>
@@ -90,7 +89,6 @@
 
             </div>
         </div>
-    </div>
 @endsection
 
 @section('scripts')

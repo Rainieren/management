@@ -51,7 +51,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'trail_ends_at' => 'datetime'
+        'trial_ends_at' => 'datetime'
     ];
 
     /**
