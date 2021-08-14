@@ -38,7 +38,7 @@
                 </ul>
             </div>
             <div class="col-span-8 md:col-span-6 space-y-6">
-                <div class="bg-white rounded-lg shadow">
+                <div class="bg-white rounded-lg shadow border">
                     <div class="space-y-6 p-8">
                         <div class="">
                             <p class="font-medium text-lg">{{ __('Payment details') }}</p>
@@ -98,7 +98,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow p-8 space-y-4">
+                <div class="bg-white rounded-lg shadow p-8 space-y-4 border">
                     <div class="">
                         <p class="font-medium text-lg">{{ __('Plan') }}</p>
                         <p class="text-sm text-gray-500">
@@ -134,23 +134,23 @@
                                         <p class="font-medium">${{ number_format($plan->price / 100, 2) }} / mo</p>
                                     </div>
                                     <div class="flex items-center justify-end w-1/3">
-                                        @if($user->onTrial() || !auth()->user()->subscribed($plan->name))
+                                        @if(!auth()->user()->subscribed($plan->name))
                                             <form action="{{ route('subscription.swap') }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="plan" value="{{ $plan->stripe_plan_id }}">
-                                                <button type="submit" class="font-medium text-indigo-600">Upgrade</button>
+                                                <button type="submit" class="font-medium text-indigo-600">{{ __('Upgrade') }}</button>
                                             </form>
-                                        @elseif($user->subscriptions()->first()->ends_at)
+                                        @elseif($user->subscription($plan->name)->onGracePeriod())
                                             <form action="{{ route('subscription.resume') }}" method="POST">
                                                 @csrf
-                                                <input type="hidden" name="plan" value="{{ $plan->name }}">
-                                                <button type="submit" class="font-medium text-indigo-600">Resume subscription</button>
+                                                <input type="hidden" name="plan" value="{{ $plan->stripe_plan_id }}">
+                                                <button type="submit" class="font-medium text-indigo-600">{{ __('Resume subscription') }}</button>
                                             </form>
-                                        @else
+                                        @elseif($user->subscribed($plan->name))
                                             <form action="{{ route('subscription.cancel') }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="plan" value="{{ $plan->name }}">
-                                                <button type="submit" class="font-medium text-indigo-600">Cancel subscription</button>
+                                                <button type="submit" class="font-medium text-indigo-600">{{ __('Cancel subscription') }}</button>
                                             </form>
                                         @endif
                                     </div>
@@ -158,9 +158,9 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class=" bg-white rounded-lg shadow">
+                    <div class=" bg-white rounded-lg shadow border">
                         <div class="p-8 space-y-4">
-                            <p class="font-medium text-lg">Billing history</p>
+                            <p class="font-medium text-lg">{{ __('Billing history') }}</p>
                             {{ $invoices->links() }}
                         </div>
                         <div class="rounded-b-lg">
@@ -168,16 +168,16 @@
                                 <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Date
+                                        {{ __('Date') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Desciption
+                                        {{ __('Description') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Amount
+                                        {{ __('Amount') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
+                                        {{ __('Status') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 
@@ -188,26 +188,36 @@
                                     @foreach($invoices as $invoice)
                                         <tr class="text-sm">
                                             <td class="px-6 py-4 whitespace-nowrap rounded-bl-lg">
-                                                {{ $invoice->date()->toDateString() }}
+{{--                                                {{ json_encode($invoice) }}--}}
+                                                {{ \Carbon\Carbon::createFromTimestamp($invoice->created)->toFormattedDateString() }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-500">
-                                                {{ $invoice->description }}
+                                                {{ substr($invoice->description, 0, 32) . "..." }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-500">
-                                                {{ $invoice->total() }}
+                                                $ {{ number_format($invoice->total / 100, 2) }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap flex text-gray-500">
-                                                @if($invoice->paid)
-                                                    <div class="bg-green-100 flex text-green-800 px-3 rounded-full">Paid</div>
-                                                @else
-                                                    <div class="bg-orange-50 flex text-orange-500 px-3 rounded-full">Needs payment</div>
-                                                @endif
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                <div class="capitalize">
+                                                    {{ __($invoice->status) }}
+                                                </div>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium rounded-br-lg space-x-4">
-                                                @if(!$invoice->paid)
-                                                    <a class="font-medium text-indigo-600" href="">Pay</a>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium rounded-br-lg space-x-4 flex">
+                                                @if($invoice->status === "open")
+                                                    <form action="{{ route('pay.invoice', ['invoice' => $invoice->id]) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="font-medium text-indigo-600">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
                                                 @endif
-                                                <a class="font-medium text-indigo-600" href="{{ route('download.invoice', ['name' => $user->name, 'invoice' => $invoice->id]) }}">Download invoice</a>
+                                                <a class="font-medium text-indigo-600" href="{{ route('download.invoice', ['name' => $user->name, 'invoice' => $invoice->id]) }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                                    </svg>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -215,7 +225,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow">
+                    <div class="bg-white rounded-lg shadow border">
                         <div class="p-8 space-y-4">
                             <div class="">
                                 <p class="font-medium text-lg">Stripe configuration</p>

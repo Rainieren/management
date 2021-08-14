@@ -164,8 +164,14 @@ class UserController extends Controller
 
         $plans = Plan::all();
 
-        $invoices = new Paginator($user->invoices(), 5);
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET')
+        );
+        $invoices = $stripe->invoices->all(['customer' => $user->stripe_id])->data;
+        $invoices = new Paginator($invoices, 5);
         $invoices->withPath(route('show.user.billing', ['name' => $user->name]));
+//        dd($invoices->data);
+
 
         if($subscription) {
             return view('users.billing', compact('user', 'plans', 'invoices', 'subscription'));

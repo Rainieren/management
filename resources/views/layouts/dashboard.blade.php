@@ -21,7 +21,7 @@
 </head>
 <body class="bg-gray-50">
 <div id="app" class="flex flex-col">
-    <header-component></header-component>
+    <header-component :auth="{{ auth()->user() }}"></header-component>
     <main class="flex-grow">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             @if(auth()->user()->onTrial())

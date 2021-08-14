@@ -68,10 +68,10 @@
                                 </div>
                                 <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                                     <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <p class="px-4 py-2 text-sm text-gray-700">Signed in as <span class="font-bold">tom@example.com</span></p>
+                                        <p class="px-4 py-2 text-sm text-gray-700">Signed in as <span class="font-bold">{{ auth.email }}</span></p>
                                         <hr class="border-gray-100">
                                         <MenuItem v-for="item in profile" :key="item" v-slot="{ active }">
-                                            <a href="/" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item }}</a>
+                                            <a :href="item.href" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item.name }}</a>
                                         </MenuItem>
                                         <hr class="border-gray-100">
                                         <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="ml-3 space-y-2">
                             <div class="text-base font-medium leading-none text-gray-900">Tom Cook</div>
-                            <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
+                            <div class="text-sm font-medium leading-none text-gray-400">{{ auth.email }}</div>
                         </div>
                         <button class="ml-auto bg-white flex-shrink-0 p-1 rounded-full text-gray-900 hover:text-indigo-600 focus:outline-none relative">
                             <span class="sr-only">View notifications</span>
@@ -146,7 +146,8 @@ import { BellIcon, MenuIcon, XIcon, ChevronDownIcon, ChartBarIcon,
     ViewGridIcon,
     UserGroupIcon,
 UserIcon,
-UsersIcon} from '@heroicons/vue/outline'
+UsersIcon,
+SpeakerphoneIcon} from '@heroicons/vue/outline'
 const solutions = [
     {
         name: 'Teams',
@@ -164,15 +165,20 @@ const solutions = [
         description: 'Manage or get in touch with your clients.',
         href: '#',
         icon: UserIcon,
+    },{
+        name: 'Announcements',
+        description: 'Create announcements about eventents that are happening to a broad audience',
+        href: '#',
+        icon: SpeakerphoneIcon,
     }
 ]
-const navigation = [{
+const navigation = [
+    {
         name: 'Dashboard',
         href: '/',
-    },
-    {
+    },{
         name: 'Issues',
-        href: '#',
+        href: '/issues',
     },{
         name: 'Tickets',
         href: '#',
@@ -183,7 +189,6 @@ const navigation = [{
         name: 'Projects',
         href: '#',
     }]
-const profile = ['Account', 'Manage subscription', 'Settings', 'Support']
 
 export default {
     components: {
@@ -206,7 +211,8 @@ export default {
         CursorClickIcon,
         ViewGridIcon,
         UserIcon,
-        UsersIcon
+        UsersIcon,
+        SpeakerphoneIcon
     },
     setup() {
         const open = ref(false)
@@ -214,8 +220,27 @@ export default {
         return {
             solutions,
             navigation,
-            profile,
             open,
+        }
+    },
+    props: ['auth'],
+    data() {
+        return {
+            profile: [
+                {
+                    name: 'Account',
+                    href: '/user/',
+                },
+                {
+                    name: 'Manage subscription',
+                    href: '/user/' + this.auth.name + '/billing',
+                },{
+                    name: 'Settings',
+                    href: '/user/' + this.auth.name + '/settings',
+                },{
+                    name: 'Support',
+                    href: '/support',
+                }]
         }
     },
 }

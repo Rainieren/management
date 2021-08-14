@@ -2,9 +2,6 @@
 
 @section('content')
         <div class="space-x-4">
-            <a href="{{ route('create.user') }}" class="hidden relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create user</a>
-            <a href="{{ route('show.user.billing', ['name' => auth()->user()->name]) }}" class="relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Show user</a>
-            <a href="{{ route('show.invoices') }}" class="relative justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Show invoices</a>
         </div>
 
         <div class="grid grid-cols-3 gap-6">
@@ -56,9 +53,6 @@
             </div>
             @endforeach
         </div>
-
-
-
 @endsection
 
 

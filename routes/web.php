@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\WebhookController;
 use App\Models\Plan;
 use App\Models\User;
 use App\Http\Controllers\UserController;
@@ -36,17 +37,32 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('{name}/invoice/{invoice}', [UserController::class, 'downloadInvoice'])->name('download.invoice');
 
         // Only a subscribed user is allowed to access these routes.
-        Route::group(['middleware' => 'subscribed.customer'], function() {
-            Route::get('create', [UserController::class, 'create'])->name('create.user');
-            Route::post('store', [UserController::class, 'store'])->name('store.user');
-        });
-    });
 
-    Route::prefix('invoices')->group(function () {
-        // Only the owner of the profile is allowed to access these routes.
-        Route::get('/', [OrderController::class, 'index'])->name('show.invoices');
-        Route::get('/create', [OrderController::class, 'create'])->name('create.invoice');
-        Route::get('/store', [OrderController::class, 'create'])->name('store.invoice');
+        Route::get('create', [UserController::class, 'create'])->name('create.user');
+        Route::post('store', [UserController::class, 'store'])->name('store.user');
+
+    });
+    // Only accessable by subscribed customers
+    Route::group(['middleware' => 'subscribed.customer'], function() {
+        Route::prefix('invoices')->group(function () {
+            // Only the owner of the profile is allowed to access these routes.
+            Route::get('/', [InvoiceController::class, 'index'])->name('show.invoices');
+            Route::get('/create', [InvoiceController::class, 'create'])->name('create.invoice');
+            Route::post('/store', [InvoiceController::class, 'store'])->name('store.invoice');
+            Route::post('/pay/{invoice}', [InvoiceController::class, 'pay'])->name('pay.invoice');
+            Route::get('/{number}', [InvoiceController::class, 'show'])->name('show.invoice');
+        });
+
+        Route::prefix('subscription')->group(function () {
+            Route::post('/swap', [SubscriptionController::class, 'swap'])->name('subscription.swap');
+            Route::post('/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
+            Route::post('/resume', [SubscriptionController::class, 'resume'])->name('subscription.resume');
+        });
+
+        Route::prefix('issues')->group(function () {
+            Route::get('/', [\App\Http\Controllers\IssueController::class, 'index'])->name('show.issues');
+        });
+
     });
 
     // Only non-subscribers are allowed to access these routes.
@@ -55,11 +71,9 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/subscription/{slug}/checkout', [SubscriptionController::class, 'index'])->name('subscription.checkout');
         Route::post('/subscription/store', [SubscriptionController::class, 'store'])->name('subscription.store');
     });
-    Route::post('/subscription/swap', [SubscriptionController::class, 'swap'])->name('subscription.swap');
-    Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
-    Route::post('/subscription/resume', [SubscriptionController::class, 'resume'])->name('subscription.resume');
+
 });
 
 Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('reset.password');
 
-
+Route::stripeWebhooks('stripe-webhook');

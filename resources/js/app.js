@@ -7,11 +7,13 @@ import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
 
 // Components
 import Header from './components/Header.vue'
-import CreateProject from './components/Projects/Create.vue'
+import CreateInvoice from './components/Invoices/Create.vue'
+import InvoiceItem from './components/Invoices/InvoiceItem.vue'
 
 const app = createApp({})
 
 app.use(LaravelPermissionToVueJS);
 app.component('header-component', Header);
-app.component('create-project-component', CreateProject);
+app.component('create-invoice-component', CreateInvoice);
+app.component('invoice-item', InvoiceItem);
 app.mount('#app');
