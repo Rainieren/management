@@ -34,6 +34,9 @@
         "@tailwindcss/line-clamp": "^0.2.1",
         "@tailwindcss/typography": "^0.4.1",
         "canvas-confetti": "^1.4.0",
-        "laravel-permission-to-vuejs": "^3.0.0"
+        "laravel-permission-to-vuejs": "^3.0.0",
+        "text-mask-addons": "^3.8.0",
+        "v-mask": "^2.2.4",
+        "vue2-filters": "^0.13.0"
     }
 }

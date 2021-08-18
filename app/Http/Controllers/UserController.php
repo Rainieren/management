@@ -167,10 +167,10 @@ class UserController extends Controller
         $stripe = new \Stripe\StripeClient(
             env('STRIPE_SECRET')
         );
+
         $invoices = $stripe->invoices->all(['customer' => $user->stripe_id])->data;
         $invoices = new Paginator($invoices, 5);
         $invoices->withPath(route('show.user.billing', ['name' => $user->name]));
-//        dd($invoices->data);
 
 
         if($subscription) {
@@ -178,6 +178,13 @@ class UserController extends Controller
         } else {
             return view('users.billing', compact('user', 'plans', 'invoices'));
         }
+    }
+
+    public function showAccount($name)
+    {
+        $user = User::where('name', $name)->first();
+
+        return view('users.account', compact('user'));
     }
 
     /**

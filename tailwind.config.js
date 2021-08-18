@@ -37,10 +37,15 @@ module.exports = {
                 black: colors.black,
                 white: colors.white
             },
+            fontFamily: {
+                'sans': ['"Rubik"', 'sans-serif']
+            }
         },
     },
     variants: {
-    extend: {},
+        extend: {
+            zIndex: ['hover', 'active'],
+        },
     },
     plugins: [
         require('@tailwindcss/forms'),

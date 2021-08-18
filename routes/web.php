@@ -32,12 +32,12 @@ Route::group(['middleware' => 'auth'], function() {
         // Only the owner of the profile is allowed to access these routes.
         Route::group(['middleware' => 'only.owner'], function() {
             Route::get('{name}/billing', [UserController::class, 'showBilling'])->name('show.user.billing');
+            Route::get('{name}/account', [UserController::class, 'showAccount'])->name('show.user.account');
             Route::post('{name}/payment_details/store', [UserController::class, 'storePaymentDetails'])->name('store.user.payment_details');
         });
+
         Route::get('{name}/invoice/{invoice}', [UserController::class, 'downloadInvoice'])->name('download.invoice');
-
         // Only a subscribed user is allowed to access these routes.
-
         Route::get('create', [UserController::class, 'create'])->name('create.user');
         Route::post('store', [UserController::class, 'store'])->name('store.user');
 
@@ -58,9 +58,15 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
             Route::post('/resume', [SubscriptionController::class, 'resume'])->name('subscription.resume');
         });
+        Route::prefix('announcements')->group(function () {
+            Route::get('/create', [\App\Http\Controllers\AnnouncementController::class, 'create'])->name('create.announcement');
+            Route::post('/store', [\App\Http\Controllers\AnnouncementController::class, 'store'])->name('store.announcement');
+        });
 
         Route::prefix('issues')->group(function () {
             Route::get('/', [\App\Http\Controllers\IssueController::class, 'index'])->name('show.issues');
+            Route::get('/create', [\App\Http\Controllers\IssueController::class, 'create'])->name('create.issues');
+            Route::post('/store', [\App\Http\Controllers\IssueController::class, 'store'])->name('store.issues');
         });
 
     });

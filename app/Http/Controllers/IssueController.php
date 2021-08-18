@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Issue;
 use Illuminate\Http\Request;
+use Psy\Util\Str;
 
 class IssueController extends Controller
 {
@@ -13,7 +15,8 @@ class IssueController extends Controller
      */
     public function index()
     {
-        return view('issues.index');
+        $issues = Issue::orderBy('created_at', 'desc')->get();
+        return view('issues.index', compact('issues'));
     }
 
     /**
@@ -23,7 +26,7 @@ class IssueController extends Controller
      */
     public function create()
     {
-
+        return view('issues.create');
     }
 
     /**
@@ -34,7 +37,17 @@ class IssueController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        dd($request->all());
+        $issue = Issue::create([
+            'title' => $request->title,
+            'slug' => \Illuminate\Support\Str::slug($request->title),
+            'description' => $request->description,
+            'project_id' => 1,
+            'billing_method' => $request->billing_method
+
+        ]);
+
+        return back();
     }
 
     /**

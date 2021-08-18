@@ -19,6 +19,7 @@ class CreateIssuesTable extends Migration
             $table->string('slug')->unique();
             $table->string('description');
             $table->integer('project_id');
+            $table->integer('billing_method');
             $table->timestamps();
         });
     }

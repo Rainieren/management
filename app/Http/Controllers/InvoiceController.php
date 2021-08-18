@@ -7,6 +7,7 @@ use App\Mail\PasswordChanged;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
 class InvoiceController extends Controller
@@ -22,11 +23,11 @@ class InvoiceController extends Controller
             'sk_test_jISrZkHj8XDTwm9uuGd7bfyG'
         );
 
-        $invoices = $stripe->invoices->all()->data;
+        $invoices = $stripe->invoices->all(['limit' => 100])->data;
         $invoices = new Paginator($invoices, 15);
         $invoices->withPath(route('show.invoices'));
 
-        return view('orders.index', compact('invoices'));
+        return view('invoices.index', compact('invoices'));
     }
 
     /**
@@ -36,9 +37,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $users = User::whereHas("roles", function($q){ $q->where("name", "Client"); })->get();
+        $users = User::whereHas("roles", function($q){ $q->where("name", "Client"); })->whereNotNull('stripe_id')->get();
 
-        return view('orders.create', compact('users'));
+        return view('invoices.create', compact('users'));
     }
 
     /**
@@ -49,20 +50,21 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-
-        $user = User::find(1)->first();
+        $user = User::find($request->client)->first();
 
         $stripe = new \Stripe\StripeClient(
             env('STRIPE_SECRET')
         );
 
-        $stripe->invoiceItems->create([
-            "customer" => $user->stripe_id,
-            "currency" => "usd",
-            "description" => "Item",
-            "quantity" => 1,
-            "unit_amount" => 3333
-        ]);
+        foreach(json_decode($request->invoice_items) as $item) {
+            $stripe->invoiceItems->create([
+                "customer" => $user->stripe_id,
+                "currency" => "usd",
+                "description" => $item->description,
+                "quantity" => $item->quantity,
+                "unit_amount" => str_replace(array('.', ','), '' , number_format((float)$item->unit_price, 2, '.', ''))
+            ]);
+        }
 
         $invoice = $stripe->invoices->create([
             "customer" => $user->stripe_id,
@@ -107,10 +109,10 @@ class InvoiceController extends Controller
             'sk_test_jISrZkHj8XDTwm9uuGd7bfyG'
         );
         $invoice = $stripe->invoices->retrieve(
-            $number
+            Crypt::decryptString($number)
         );
 
-        return view('orders.show', compact('invoice'));
+        return view('invoices.show', compact('invoice'));
     }
 
     /**

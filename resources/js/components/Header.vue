@@ -59,7 +59,7 @@
                             </button>
 
                             <!-- Profile dropdown -->
-                            <Menu as="div" class="ml-3 relative">
+                            <Menu as="div" class="ml-3 relative z-20">
                                 <div>
                                     <MenuButton class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none">
                                         <span class="sr-only">Open user menu</span>
@@ -74,7 +74,10 @@
                                             <a :href="item.href" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item.name }}</a>
                                         </MenuItem>
                                         <hr class="border-gray-100">
-                                        <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                                        <form action="/logout" method="POST">
+                                            <input type="hidden" name="_token" :value="csrf">
+                                            <button type="submit" class="block w-100 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</button>
+                                        </form>
                                     </MenuItems>
                                 </transition>
                             </Menu>
@@ -123,14 +126,14 @@
                         </button>
                     </div>
                     <div class="mt-3 px-2 space-y-1">
-                        <a v-for="item in profile" :key="item" href="#" class="block px-3 py-2 rounded-md text-sm text-gray-900 hover:text-white hover:bg-indigo-600 transition-all">{{ item }}</a>
+                        <a v-for="item in profile" :key="item" href="#" class="block px-3 py-2 rounded-md text-sm text-gray-900 hover:text-white hover:bg-indigo-600 transition-all">{{ item.name }}</a>
                     </div>
                 </div>
             </DisclosurePanel>
         </Disclosure>
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <h1 class="text-xl md:text-3xl font-bold text-gray-900">
+                <h1 class="text-xl md:text-3xl font-medium text-gray-900">
                     Dynamic title based on route
                 </h1>
             </div>
@@ -229,7 +232,7 @@ export default {
             profile: [
                 {
                     name: 'Account',
-                    href: '/user/',
+                    href: '/user/' + this.auth.name + '/account',
                 },
                 {
                     name: 'Manage subscription',
@@ -240,7 +243,9 @@ export default {
                 },{
                     name: 'Support',
                     href: '/support',
-                }]
+                }
+            ],
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         }
     },
 }
